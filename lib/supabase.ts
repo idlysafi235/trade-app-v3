@@ -1,14 +1,33 @@
 import { createClient } from '@supabase/supabase-js';
 
-// These will be replaced with actual values when you connect to Supabase
-const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';
-const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || 'your-anon-public-key';
+// Environment variables with better error handling
+const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: false, // Disable auth persistence for demo app
-  },
-});
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.warn('Supabase environment variables not found. Using mock data mode.');
+}
+
+export const supabase = createClient(
+  SUPABASE_URL || 'https://placeholder.supabase.co',
+  SUPABASE_ANON_KEY || 'placeholder-key',
+  {
+    auth: {
+      persistSession: false, // Disable auth persistence for demo app
+    },
+  }
+);
+
+// Add connection test function
+export async function testSupabaseConnection(): Promise<boolean> {
+  try {
+    const { data, error } = await supabase.from('signals').select('count').limit(1);
+    return !error;
+  } catch (error) {
+    console.log('Supabase connection test failed:', error);
+    return false;
+  }
+}
 
 // Database types
 export interface Signal {

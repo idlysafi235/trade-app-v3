@@ -13,6 +13,7 @@ import { subscribeToSignals } from '../../supabase/signals';
 import SignalCard from '../../components/SignalCard';
 import MarketOverview from '../../components/MarketOverview';
 import NotificationSheet from '../../components/NotificationSheet';
+import ConnectionStatus from '../../components/ConnectionStatus';
 import { Bell } from 'lucide-react-native';
 import { Signal } from '../../lib/supabase';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -249,6 +250,7 @@ export default function SignalsScreen() {
         </TouchableOpacity>
       </View>
 
+      <ConnectionStatus />
       <MarketOverview />
 
       <View style={styles.filtersContainer}>

@@ -14,7 +14,8 @@ import SignalCard from '../../components/SignalCard';
 import MarketOverview from '../../components/MarketOverview';
 import NotificationSheet from '../../components/NotificationSheet';
 import ConnectionStatus from '../../components/ConnectionStatus';
-import { Bell } from 'lucide-react-native';
+import SetupGuide from '../../components/SetupGuide';
+import { Bell, Settings } from 'lucide-react-native';
 import { Signal } from '../../lib/supabase';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -25,6 +26,7 @@ export default function SignalsScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState('all'); // all, active, closed
   const [notificationVisible, setNotificationVisible] = useState(false);
+  const [setupGuideVisible, setSetupGuideVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Memoize the signals callback to prevent unnecessary re-renders
@@ -151,7 +153,11 @@ export default function SignalsScreen() {
       fontFamily: 'Inter-Regular',
       marginTop: 2,
     },
-    notificationButton: {
+    headerActions: {
+      flexDirection: 'row',
+      gap: 8,
+    },
+    actionButton: {
       width: 44,
       height: 44,
       borderRadius: 22,
@@ -242,12 +248,20 @@ export default function SignalsScreen() {
           <Text style={styles.title}>Gold & Silver Signals</Text>
           <Text style={styles.subtitle}>Live Trading Opportunities</Text>
         </View>
-        <TouchableOpacity 
-          style={styles.notificationButton}
-          onPress={() => setNotificationVisible(true)}
-        >
-          <Bell size={24} color={colors.text} />
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => setSetupGuideVisible(true)}
+          >
+            <Settings size={24} color={colors.text} />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => setNotificationVisible(true)}
+          >
+            <Bell size={24} color={colors.text} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ConnectionStatus />
@@ -288,6 +302,11 @@ export default function SignalsScreen() {
       <NotificationSheet
         visible={notificationVisible}
         onClose={() => setNotificationVisible(false)}
+      />
+
+      <SetupGuide
+        visible={setupGuideVisible}
+        onClose={() => setSetupGuideVisible(false)}
       />
     </SafeAreaView>
   );

@@ -9,15 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { 
-  X, 
-  Database, 
-  ExternalLink, 
-  Copy, 
-  CheckCircle,
-  ArrowRight,
-  Settings
-} from 'lucide-react-native';
+import { X, Database, ExternalLink, Copy, CircleCheck as CheckCircle, ArrowRight, Settings } from 'lucide-react-native';
 import { useTheme } from '../contexts/ThemeContext';
 
 interface SetupGuideProps {
